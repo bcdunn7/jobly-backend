@@ -16,7 +16,7 @@ const URI_DB_PASSWORD = `${encodeURIComponent(process.env.DB_PASSWORD)}`
 function getDatabaseUri() {
   return (process.env.NODE_ENV === "test")
   ? `postgresql://${process.env.DB_USER}:${URI_DB_PASSWORD}@localhost:${process.env.DB_PORT}/jobly_test`
-  : `postgresql://${process.env.DB_USER}:${URI_DB_PASSWORD}@localhost:${process.env.DB_PORT}/jobly`;
+  : process.env.DATABASE_URL || 'jobly';
 }
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
@@ -28,6 +28,7 @@ console.log("Jobly Config:".green);
 console.log("SECRET_KEY:".yellow, SECRET_KEY);
 console.log("PORT:".yellow, PORT.toString());
 console.log("BCRYPT_WORK_FACTOR:".yellow, BCRYPT_WORK_FACTOR);
+console.log("Database:".yellow, getDatabaseUri());
 console.log("---");
 
 module.exports = {
